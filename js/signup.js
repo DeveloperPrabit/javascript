@@ -1,40 +1,46 @@
+// signup.js
+
+// Firebase Auth and OTP Functions
+import { getAuth, createUserWithEmailAndPassword, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+const auth = getAuth();
+
+// Handle signup and OTP generation
 document.getElementById("signup-btn").addEventListener("click", () => {
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
 
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            sendOtp(user); // Trigger OTP
-        })
-        .catch((error) => {
-            document.getElementById("signup-error-message").textContent = error.message;
-        });
-});
-
-function sendOtp(user) {
-    user.sendEmailVerification()
+    // Create user
+    createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
-            document.getElementById("signup-container").style.display = "none";
+            // Send OTP to email
+            sendSignInLinkToEmail(auth, email, {
+                url: "http://localhost:5500/game.html", // Update with your URL
+                handleCodeInApp: true,
+            });
+            // Show OTP input
+            document.getElementById("signup-message").textContent = "OTP sent to your email.";
             document.getElementById("otp-container").style.display = "block";
         })
         .catch((error) => {
-            document.getElementById("signup-error-message").textContent = error.message;
+            document.getElementById("signup-message").textContent = error.message;
         });
-}
+});
 
+// Verify OTP
 document.getElementById("verify-otp-btn").addEventListener("click", () => {
-    const otpInput = document.getElementById("otp-input").value;
+    const email = document.getElementById("signup-email").value;
+    const otpCode = document.getElementById("otp-code").value;
 
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            user.reload().then(() => {
-                if (user.emailVerified) {
-                    window.location.href = "game.html"; // Redirect to game on successful OTP verification
-                } else {
-                    document.getElementById("otp-error-message").textContent = "OTP is incorrect or not verified.";
-                }
+    if (isSignInWithEmailLink(auth, otpCode)) {
+        signInWithEmailLink(auth, email, otpCode)
+            .then(() => {
+                window.location.href = "game.html"; // Redirect to game.html after verification
+            })
+            .catch((error) => {
+                document.getElementById("signup-message").textContent = error.message;
             });
-        }
-    });
+    } else {
+        document.getElementById("signup-message").textContent = "Invalid OTP code.";
+    }
 });
