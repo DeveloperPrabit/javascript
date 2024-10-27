@@ -1,4 +1,5 @@
 // Your web app's Firebase configuration
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 const firebaseConfig = {
     apiKey: "AIzaSyDSqgOdoAoOjrOMIaj_pUuPPKSNCBYlhnQ",
     authDomain: "backendapp-e7687.firebaseapp.com",
@@ -10,4 +11,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+export default app;;
