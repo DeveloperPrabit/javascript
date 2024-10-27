@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play Mystery Quest</title>
+    <title>Mystery Quest - Sign Up</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script defer src="firebase-config.js"></script>
-    <script defer src="js/game.js"></script>
+    <script defer src="js/signup.js"></script>
 </head>
 <body>
-    <div id="game-container">
-        <h1>Welcome to Mystery Quest</h1>
-        <p>Your adventure begins now...</p>
-        <!-- Game content goes here -->
+    <div id="signup-container">
+        <h1>Create Account</h1>
+        <input type="email" id="signup-email" placeholder="Email">
+        <input type="password" id="signup-password" placeholder="Password">
+        <button id="signup-btn">Sign Up</button>
+        <p id="signup-error-message"></p>
+        <div id="loading-spinner" style="display: none;">Loading...</div>
     </div>
 </body>
-    <script defer src="js/game.js"></script>
 </html>
