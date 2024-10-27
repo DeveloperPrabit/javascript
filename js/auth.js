@@ -28,13 +28,11 @@ document.getElementById("login-btn").addEventListener("click", () => {
         });
 });
 
-// Authentication State Listener
+// Authentication State Listener for login persistence
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // If user is signed in, allow access to the "Play" button
-        document.getElementById("play-btn").style.display = "block";
+        document.getElementById("play-btn").style.display = "block"; // Show play button if logged in
     } else {
-        // If user is not signed in, hide the "Play" button
-        document.getElementById("play-btn").style.display = "none";
+        document.getElementById("play-btn").style.display = "none"; // Hide play button if logged out
     }
 });
