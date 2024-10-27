@@ -6,34 +6,35 @@ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https:/
 // Initialize Firebase Auth
 const auth = getAuth();
 
+// Login button event listener
 document.getElementById("login-btn").addEventListener("click", () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    // Attempt to sign in
+    // Attempt Firebase sign-in
     signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            // Redirect to game.html if login is successful
+            // Redirect to game.html upon successful login
             window.location.href = "game.html";
         })
         .catch((error) => {
             if (error.code === "auth/user-not-found") {
-                // Redirect to signup.html if the user does not exist
+                // Redirect to signup.html if user doesn't exist
                 window.location.href = "signup.html";
             } else {
-                // Display error message for other errors
+                // Display any other error messages
                 document.getElementById("error-message").textContent = error.message;
             }
         });
 });
 
-// Monitor Authentication State
+// Authentication State Listener
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // Show the play button if the user is logged in
+        // If user is signed in, allow access to the "Play" button
         document.getElementById("play-btn").style.display = "block";
     } else {
-        // Hide the play button if the user is logged out
+        // If user is not signed in, hide the "Play" button
         document.getElementById("play-btn").style.display = "none";
     }
 });
